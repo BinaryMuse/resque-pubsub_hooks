@@ -1,7 +1,7 @@
 resque-pubsub-hooks
 ===================
 
-resque-pubsub-hooks adds Redis Pub/Sub hooks to your Resque jobs. This can be used for realtime monitoring of Resque.
+resque-pubsub-hooks adds Redis pub/sub hooks to your Resque jobs and workers. This can be used for realtime monitoring of your Resque environment.
 
 Resque Compatability
 --------------------
@@ -42,11 +42,11 @@ resque-pubsub-hooks provides the `Resque::Plugins::Pubsub::Hooks` module, which 
 
 If you have multiple job types, you can create a base class and extend it for all job types.
 
-    class MyResqueJob
+    class JobWithPubsub
       extend Resque::Plugins::Pubsub::Hooks
     end
 
-    class Archive < MyResqueJob
+    class Archive < JobWithPubsub
       @queue = :file_serve
 
       def self.perform(repo_id, branch = 'master')
@@ -56,17 +56,11 @@ If you have multiple job types, you can create a base class and extend it for al
 
 ### Configuring the Pub/Sub Hooks
 
-By default, resque-pubsub-hooks will publish its events on a channel name based on the value of `Resque.redis.namespace`. For example, if the namespace is set to the default value of
-
-    resque
-
-the gem will publish events to a channel named
-
-    resque-pubsub
+By default, resque-pubsub-hooks will publish its events on a channel name based on the value of `Resque.redis.namespace`. For example, if the namespace is set to the default value of `resque` the gem will publish events to a channel named `resque-pubsub`.
 
 Since the channel name is based on the Redis namespace, changing the namespace will automatically change the channel name. However, if you wish to specify the name of a channel to use, you can do so:
 
-    Resque::Plugins::Pubsub.config do |config|
+    Resque::Plugins::Pubsub.configure do |config|
       config.channel_name = 'my_resque_events'
     end
 
