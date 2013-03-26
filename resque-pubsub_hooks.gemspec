@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'resque/pubsub/hooks/version'
+require 'resque/pubsub_hooks/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "resque-pubsub-hooks"
-  spec.version       = Resque::Pubsub::Hooks::VERSION
+  spec.name          = "resque-pubsub_hooks"
+  spec.version       = Resque::Plugins::PubsubHooks::VERSION
   spec.authors       = ["Brandon Tilley"]
   spec.email         = ["brandon@brandontilley.com"]
   spec.description   = %q{TODO: Write a gem description}

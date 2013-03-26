@@ -1,6 +1,6 @@
 module Resque
-  module Pubsub
-    module Hooks
+  module Plugins
+    module PubsubHooks
       VERSION = "0.0.1"
     end
   end
