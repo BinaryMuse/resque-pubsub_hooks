@@ -19,7 +19,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "redis"
+
   spec.add_development_dependency "resque", "~> 1.24"
+  spec.add_development_dependency "rspec"
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
 end
