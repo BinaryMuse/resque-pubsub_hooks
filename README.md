@@ -60,7 +60,7 @@ By default, resque-pubsub_hooks will publish its events on a channel name based 
 
 Since the channel name is based on the Redis namespace, changing the namespace will automatically change the channel name. However, if you wish to specify the name of a channel to use, you can do so:
 
-    Resque::Plugins::Pubsub.configure do |config|
+    Resque::Plugins::PubsubHooks.configure do |config|
       config.channel_name = 'my_resque_events'
     end
 
