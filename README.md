@@ -31,7 +31,7 @@ Usage
 resque-pubsub-hooks provides the `Resque::Plugins::Pubsub::Hooks` module, which you can mix in to your own Resque jobs.
 
     class Archive
-      extend Resque::Plugins::Pubsub::Hooks
+      include Resque::Plugins::Pubsub::Hooks
 
       @queue = :file_serve
 
@@ -43,7 +43,7 @@ resque-pubsub-hooks provides the `Resque::Plugins::Pubsub::Hooks` module, which 
 If you have multiple job types, you can create a base class and extend it for all job types.
 
     class JobWithPubsub
-      extend Resque::Plugins::Pubsub::Hooks
+      include Resque::Plugins::Pubsub::Hooks
     end
 
     class Archive < JobWithPubsub
