@@ -9,7 +9,7 @@ class MockPublisher
 end
 
 module Resque::Plugins::PubsubHooks
-  @configuration = OpenStruct.new(channel_name: nil)
+  @configuration = OpenStruct.new(channel_prefix: nil)
 
   def self.configure
     yield @configuration
@@ -19,13 +19,13 @@ module Resque::Plugins::PubsubHooks
     Resque.redis
   end
 
-  def self.channel
-    @configuration.channel_name || "#{Resque.redis.namespace}-pubsub"
+  def self.channel_prefix
+    @configuration.channel_prefix || "#{Resque.redis.namespace}-pubsub"
   end
 
-  def self.publish(type, msg = nil)
-    full_channel = "#{channel}:#{type}"
+  def self.publish(event, msg = nil)
+    channel = "#{channel_prefix}:#{event}"
     msg = msg || ''
-    redis.publish full_channel, msg
+    redis.publish channel, msg
   end
 end
