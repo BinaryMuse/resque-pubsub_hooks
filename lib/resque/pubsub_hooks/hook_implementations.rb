@@ -1,21 +1,45 @@
 module Resque::Plugins::PubsubHooks
   module HookImplementations
     class Worker
-      def self.before_first_fork; end
-      def self.before_fork(job); end
-      def self.after_fork(job); end
-      def self.before_pause(worker); end
-      def self.after_pause(worker); end
+      def self.before_first_fork
+        puts "* before_first_fork"
+      end
+      def self.before_fork(job)
+        puts "* before_fork"
+      end
+      def self.after_fork(job)
+        puts "* after_fork"
+      end
+      def self.before_pause(worker)
+        puts "* before_pause"
+      end
+      def self.after_pause(worker)
+        puts "* after_pause"
+      end
     end
 
     module Job
-      def before_enqueue__with_pubsub(*args); end
-      def after_enqueue__with_pubsub(*args); end
-      def before_dequeue__with_pubsub(*args); end
-      def after_dequeue__with_pubsub(*args); end
-      def before_perform__with_pubsub(*args); end
-      def after_perform__with_pubsub(*args); end
-      def on_failure__with_pubsub(e, *args); end
+      def before_enqueue__with_pubsub(*args)
+        puts "* before_enqueue__with_pubsub(#{args.inspect})"
+      end
+      def after_enqueue__with_pubsub(*args)
+        puts "* after_enqueue__with_pubsub(#{args.inspect})"
+      end
+      def before_dequeue__with_pubsub(*args)
+        puts "* before_dequeue__with_pubsub(#{args.inspect})"
+      end
+      def after_dequeue__with_pubsub(*args)
+        puts "* after_dequeue__with_pubsub(#{args.inspect})"
+      end
+      def before_perform__with_pubsub(*args)
+        puts "* before_perform__with_pubsub(#{args.inspect})"
+      end
+      def after_perform__with_pubsub(*args)
+        puts "* after_perform__with_pubsub(#{args.inspect})"
+      end
+      def on_failure__with_pubsub(e, *args)
+        puts "* on_failure__with_pubsub(#{e.inspect}, #{args.inspect})"
+      end
     end
   end
 end
