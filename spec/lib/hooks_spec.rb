@@ -11,6 +11,16 @@ describe 'Resque::Plugins::PubsubHooks::Hooks' do
     klass.send(:include, Resque::Plugins::PubsubHooks::Hooks)
   end
 
+  it 'should publish via Redis when forking', focus: true do
+    klass = Class.new
+    Resque::Plugins::PubsubHooks.redis.should_receive(:publish).with('resque-pubsub:before_first_fork', '').and_call_original
+    # TODO: find out why these hooks aren't getting called
+    # Resque::Plugins::PubsubHooks.redis.should_receive(:publish).with('resque-pubsub:before_fork', 'test').and_call_original
+    # Resque::Plugins::PubsubHooks.redis.should_receive(:publish).with('resque-pubsub:after_fork', 'test').and_call_original
+    klass.send(:include, Resque::Plugins::PubsubHooks::Hooks)
+    perform_job_with_fork(FakeClass, 1, 2, 3)
+  end
+
   class FakeClass
     @queue = :test
     include Resque::Plugins::PubsubHooks::Hooks
@@ -25,5 +35,12 @@ describe 'Resque::Plugins::PubsubHooks::Hooks' do
     FakeClass.should_receive(:before_perform).with(1, 2, 3)
     FakeClass.should_receive(:after_perform).with(1, 2, 3)
     perform_job(FakeClass, 1, 2, 3)
+  end
+
+  it 'fires lifecycle hooks while dequeueing a job' do
+    FakeClass.should_receive(:before_dequeue).with()
+    FakeClass.should_receive(:after_dequeue).with()
+    Resque.enqueue(FakeClass, 1, 2, 3)
+    Resque.dequeue(FakeClass)
   end
 end

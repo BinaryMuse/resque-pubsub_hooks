@@ -37,3 +37,16 @@ def perform_job(klass, *args)
   worker.perform(job)
   worker.done_working
 end
+
+def perform_job_with_fork(klass, *args)
+  Resque.redis.flushall
+  Resque.enqueue(klass, *args)
+
+  worker = Resque::Worker.new(:test)
+  puts "will fork? = #{worker.will_fork?}"
+  unless job = worker.reserve
+    raise "could not reserve a resque job on queue 'test'; check your queue configuration"
+  end
+  worker.work(0)
+  worker.done_working
+end

@@ -8,6 +8,8 @@ Resque Compatability
 
 resque-pubsub_hooks works with Resque 1.x, and is tested against Resque 1.24. It has not been tested against Resque 2.0 (currently at a prerelease version).
 
+Note that there is a bug in Resque versions 1.23.0 and earlier where `Resque.before_fork` (and other Resque worker hooks) could only be set once, and setting the value again clobbered previously set values. If you or a plugin you use uses these worker hooks, be sure to upgrade to Resque 1.24.0 or newer.
+
 Installation
 ------------
 
