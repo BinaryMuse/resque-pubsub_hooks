@@ -30,6 +30,8 @@ describe 'Resque::Plugins::PubsubHooks::Hooks' do
   end
 
   it 'fires lifecycle hooks while processing a job' do
+    # TODO: should be before_enqueue__with_pubsub etc.
+    # TODO: should spec that it receives correct args
     FakeClass.should_receive(:before_enqueue).with(1, 2, 3)
     FakeClass.should_receive(:after_enqueue).with(1, 2, 3)
     FakeClass.should_receive(:before_perform).with(1, 2, 3)
